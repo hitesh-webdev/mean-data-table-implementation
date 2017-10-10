@@ -50,10 +50,10 @@
 
     <div>
 
-      <nav *ngIf="employees.length != 0" class="paginationWrapper">
+      <nav *ngIf="employees.length != 0 && searchEmpty" class="paginationWrapper">
         <ul class="pagination">
           <!-- <li class="disabled"><span>&laquo;</span></li> -->
-          <li [class.active]="i == 1" (click)="changeOffset(i, $event)" *ngFor="let i of getNumber(totalPages)"><a>{{i}}</a></li>
+          <li [class.active]="i == currentPage" (click)="changeOffset(i, $event)" *ngFor="let i of getNumber(totalPages)"><a>{{i}}</a></li>
           <!-- <li><span>&raquo;</span></li> -->
         </ul>
       </nav>

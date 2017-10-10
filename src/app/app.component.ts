@@ -22,6 +22,8 @@ export class AppComponent {
   searchText = '';
   totalRowCount = 0;
   totalPages = 1;
+  searchEmpty = true;
+  currentPage = 1;
 
   fillDB() {
 
@@ -75,7 +77,15 @@ export class AppComponent {
 
   fetchEmployees() {
 
-    const filterOptions = {sortOptions: this.sortOptions, rowCount: +this.rowCount, offset: +this.offset, searchText: this.searchText};
+    let filterOptions;
+
+    if (this.searchText === '') {
+      this.searchEmpty = true;
+      filterOptions = {sortOptions: this.sortOptions, rowCount: +this.rowCount, offset: +this.offset, searchText: this.searchText};
+    } else {
+      this.searchEmpty = false;
+      filterOptions = {sortOptions: this.sortOptions, rowCount: null, offset: 0, searchText: this.searchText};
+    }
 
     console.log('Filter Options: ');
     console.log(filterOptions);
@@ -101,12 +111,14 @@ export class AppComponent {
     });
     event.target.parentNode.className = 'active';
     this.offset = (offset - 1) * this.rowCount;
+    this.currentPage = offset;
     this.fetchEmployees();
 
   }
 
   changeRowCount() {
 
+    this.currentPage = 1;
     this.offset = 0;
     this.fetchEmployees();
 
